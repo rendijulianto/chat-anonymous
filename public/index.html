@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anonymous Chat</title>
+    <link href="dist/output.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <script defer src="/socket.io/socket.io.js"></script>
+    <script defer src="main.js"></script>
+    <style>
+      .hidden {
+        display: none;
+      }
+      .chat-container {
+        display: flex;
+        height: 80vh;
+      }
+      .room-list-container {
+        flex: 1;
+        border-right: 1px solid #ccc;
+        padding: 20px;
+        overflow-y: auto;
+      }
+      .chat-area {
+        flex: 3;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+      }
+      .message-input-container {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+      }
+
+      .message-input {
+        flex-grow: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        max-width: 300px; /* Set a maximum width */
+      }
+
+      .send-button {
+        padding: 10px 20px;
+        margin-left: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px; /* Add rounded corners */
+      }
+
+      .send-button i {
+        margin-right: 5px;
+      }
+
+      #imageInput {
+        display: none; /* Keep the file input hidden */
+      }
+
+      #sendImage {
+        margin-left: 10px;
+        background-color: #28a745;
+      }
+
+      .room-list-container {
+        max-height: 400px;
+        overflow-y: auto;
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-right: 20px;
+        border-radius: 8px;
+      }
+      .room-list {
+        list-style: none;
+        padding: 0;
+      }
+      .room-item {
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        margin-bottom: 5px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+      }
+      .room-item:hover {
+        background-color: #e2e2e2;
+      }
+      .room-item .fa-comments {
+        color: #888;
+        margin-right: 10px;
+      }
+      .active-room {
+        background-color: #007bff;
+        color: white;
+      }
+      .active-room .fa-comments {
+        color: white;
+      }
+      .room-item a {
+        color: inherit;
+        text-decoration: none;
+        flex-grow: 1;
+      }
+      .room-item a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mx-auto p-4">
+      <h1 class="text-2xl font-bold">Anonymous Chat</h1>
+      <div class="chat-container">
+        <div class="room-list-container">
+          <h2 class="text-xl font-semibold">Available Rooms</h2>
+          <ul id="room-list" class="list-disc pl-5">
+            <!-- Room list items will be dynamically added here -->
+          </ul>
+          <button id="create-room" class="bg-green-500 text-white p-2 mt-4">
+            <i class="fas fa-plus-circle"></i> Create Room
+          </button>
+        </div>
+        <div class="chat-area">
+          <h2 class="text-xl font-semibold mb-3">
+            Chat
+
+            <i class="fas fa-comments"></i>
+          </h2>
+          <h1 id="typing-indicator"></h1>
+          <div
+            id="messages-container"
+            class="messages-container border p-4 mb-4"
+          >
+            <ul id="messages" class="list-none">
+              <!-- Messages will be dynamically added here -->
+            </ul>
+          </div>
+          <div
+            id="typing-indicator"
+            class="typing-indicator hidden text-gray-500 text-sm"
+          >
+            <i class="fas fa-pencil-alt"></i> Someone is typing...
+          </div>
+
+          <div class="message-input-container">
+            <input
+              type="text"
+              id="message"
+              class="message-input border p-2"
+              placeholder="Enter your message"
+            />
+            <button id="send" class="send-button">
+              <i class="fas fa-paper-plane"></i> Send
+            </button>
+            <input
+              type="file"
+              id="imageInput"
+              class="hidden"
+              accept="image/*"
+            />
+            <button id="sendImage" class="send-button">
+              <i class="fas fa-image"></i> Image
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
